@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { updateMeme } from "./helper/apicalls";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const UpdateMeme = ({ updtMemeCont, setupdtMemeCont, flag, setFlag }) => {
+const UpdateMeme = ({ updtMemeCont, setupdtMemeCont }) => {
   const [caption, setCaption] = useState(updtMemeCont.caption);
   const [url, setUrl] = useState(updtMemeCont.url);
 
@@ -15,15 +17,24 @@ const UpdateMeme = ({ updtMemeCont, setupdtMemeCont, flag, setFlag }) => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    //TODO: Input validation goes here
+    if(!!caption.trim() === false || !!url.trim() === false) {
+      return toast.error('Please enter value in all fields.')
+    }
 
     updateMeme({ id: updtMemeCont.id, caption, url })
     .then((response) => {
-        console.log(response);
+      if(response.status === 500) {
+        toast.error('Something wrong on server please update meme later');
+      } else if (response.status === 200) {
+        toast.success('Meme is updated successfully');
+      } else if (response.status === 404) {
+        toast.warn('No such meme exists');
+      }
         setCaption('');
         setUrl('');
-        setupdtMemeCont(undefined);
-        setFlag(!flag);
+        setTimeout(() => {
+          setupdtMemeCont(undefined);
+        }, 5500)
     })
     .catch((err) => {
       console.log(err);
@@ -82,6 +93,7 @@ const UpdateMeme = ({ updtMemeCont, setupdtMemeCont, flag, setFlag }) => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

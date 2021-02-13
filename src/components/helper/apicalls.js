@@ -25,6 +25,4 @@ export const updateMeme = ({ id, caption, url }) => {
       },
       body: JSON.stringify({caption, url})
   })
-  .then(response => { return {message: 'Updated Successfully'}})
-  .catch(err => {return err});
 };

@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import { postMeme } from './helper/apicalls';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddMeme = ({
   flag,
@@ -24,17 +26,20 @@ const AddMeme = ({
 
   const onSubmit = (event) => {
     event.preventDefault();
-    //TODO: Input validation goes here
+
+    if(!!name.trim() === false || !!caption.trim() === false || !!url.trim() === false) {
+      return toast.error('Please enter value in all fields.')
+    }
 
     postMeme({name, caption, url})
     .then((response) => {
       if(response.status === 500 ) {
-        console.log('Something wrong please try again later');
+        toast.error('Something wrong on server please add meme later');
       } else if (response.status === 409) {
-        console.log('Resource already exists');
+        toast.warn('This meme already exists');
       } else if (response.status === 201) {
+        toast.success('Your meme is added successfully');
         setFlag(!flag);
-        console.log('Flag value changed!')
       }
     })
     .catch((err) => console.log(err));
@@ -89,6 +94,7 @@ const AddMeme = ({
             </div>
           </div>
         </div>
+        <ToastContainer />
       </div>
   )
 }

@@ -14,8 +14,6 @@ const App = () => {
         <UpdateMeme
           updtMemeCont={updtMemeCont}
           setupdtMemeCont={setupdtMemeCont}
-          flag={flag}
-          setFlag={setFlag}
         />
       ) : (
         <div>
