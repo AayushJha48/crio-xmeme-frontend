@@ -50,7 +50,7 @@ const AddMeme = ({
 
   return (
     <div>
-        <h2 className="text text-center mt-5">Meme Stream</h2>
+        <h2 className="text text-center mt-5">Meme collection</h2>
         <div className="ml-5 mr-5">
           <div className="row">
             <div className="col-md-3"></div>
