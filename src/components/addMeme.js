@@ -28,7 +28,6 @@ const AddMeme = ({
 
     postMeme({name, caption, url})
     .then((response) => {
-      console.log(typeof response.status)
       if(response.status === 500 ) {
         console.log('Something wrong please try again later');
       } else if (response.status === 409) {
